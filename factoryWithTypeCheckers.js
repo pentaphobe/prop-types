@@ -198,6 +198,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
         return validate(props, propName, componentName, location, propFullName);
       }
     }
+    checkType.validate = validate;
 
     var chainedCheckType = checkType.bind(null, false);
     chainedCheckType.isRequired = checkType.bind(null, true);
@@ -288,6 +289,8 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
       var valuesString = JSON.stringify(expectedValues);
       return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of value `' + propValue + '` ' + ('supplied to `' + componentName + '`, expected one of ' + valuesString + '.'));
     }
+    validate.expectedValues = expectedValues;
+
     return createChainableTypeChecker(validate);
   }
 
@@ -344,6 +347,8 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
 
       return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` supplied to ' + ('`' + componentName + '`.'));
     }
+    validate.arrayOfTypeCheckers = arrayOfTypeCheckers;
+
     return createChainableTypeChecker(validate);
   }
 
@@ -376,6 +381,8 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
       }
       return null;
     }
+    validate.shapeTypes = shapeTypes;
+
     return createChainableTypeChecker(validate);
   }
 
@@ -405,6 +412,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
       }
       return null;
     }
+    validate.shapeTypes = shapeTypes;
 
     return createChainableTypeChecker(validate);
   }
